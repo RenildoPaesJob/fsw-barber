@@ -11,8 +11,13 @@ import Banner01 from "../../public/assets/img/Banner01.svg"
 
 import Header from "./_components/Header"
 import { Avatar, AvatarImage } from "./_components/ui/avatar"
+import { db } from "./_lib/prisma"
+import BarberShopItem from "./_components/BarberShopItem"
 
-export default function Home() {
+export default async function Home() {
+
+	const barbershops = await db.barbershop.findMany({})
+
 	return (
 		<>
 			{/* Header */}
@@ -37,28 +42,47 @@ export default function Home() {
 					/>
 				</div>
 
-				<Card className="mt-6">
-					<CardContent className="flex justify-between px-5 py-0">
-						{/* ESQUERDA */}
-						<div className="flex flex-col gap-2 py-5">
-							<Badge className="flex justify-center text-center w-fit">Confirmado</Badge>
-							<h3 className="font-bold">Corte de Cabelo</h3>
+				<div className="flex flex-col gap-3 mt-6">
+					<h2 className="text-xs font-bold uppercase text-gray-400">
+						Agendamentos
+					</h2>
+					<Card>
+						<CardContent className="flex justify-between px-5 py-0">
+							{/* ESQUERDA */}
+							<div className="flex flex-col gap-2 py-5">
+								<Badge className="flex justify-center text-center w-fit">Confirmado</Badge>
+								<h3 className="font-bold">Corte de Cabelo</h3>
 
-							<div className="flex items-center gap-2">
-								<Avatar>
-									<AvatarImage src="https://utfs.io/f/07842cfb-7b30-4fdc-accc-719618dfa1f2-17s.png" alt="@shadcn" className="object-cover" />
-								</Avatar>
-								<h4>Renildo P.</h4>
+								<div className="flex items-center gap-2">
+									<Avatar>
+										<AvatarImage src="https://utfs.io/f/07842cfb-7b30-4fdc-accc-719618dfa1f2-17s.png" alt="@shadcn" className="object-cover" />
+									</Avatar>
+									<h4>Renildo P.</h4>
+								</div>
 							</div>
-						</div>
 
-						<div className="flex flex-col items-center justify-center border-l-2 border-solid pl-5">
-							<p className="text-sm">Agosto</p>
-							<p className="text-2xl">06</p>
-							<p className="text-sm">15:00</p>
-						</div>
-					</CardContent>
-				</Card>
+							<div className="flex flex-col items-center justify-center border-l-2 border-solid pl-5">
+								<p className="text-sm">Agosto</p>
+								<p className="text-2xl">06</p>
+								<p className="text-sm">15:00</p>
+							</div>
+						</CardContent>
+					</Card>
+				</div>
+
+				<div className="flex flex-col gap-3 mt-6">
+					<h2 className="text-xs font-bold uppercase text-gray-400">
+						Recomendados
+					</h2>
+
+					<div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+						{
+							barbershops.map(barbershop =>
+								<BarberShopItem key={barbershop.id} barbershop={barbershop} />
+							)
+						}
+					</div>
+				</div>
 			</div>
 		</>
 	)
