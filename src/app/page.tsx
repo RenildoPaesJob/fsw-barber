@@ -1,10 +1,17 @@
-import { SearchIcon } from "lucide-react"
-import Header from "./_components/Header"
-import { Button } from "./_components/ui/button"
-import { Input } from "./_components/ui/input"
 import Image from "next/image"
 
+import { SearchIcon } from "lucide-react"
+
+import { Button } from "./_components/ui/button"
+import { Input } from "./_components/ui/input"
+import { Card, CardContent } from "./_components/ui/card"
+import { Badge } from "./_components/ui/badge"
+
 import Banner01 from "../../public/assets/img/Banner01.svg"
+import AvatarImg from "https://utfs.io/f/07842cfb-7b30-4fdc-accc-719618dfa1f2-17s.png"
+
+import Header from "./_components/Header"
+import { Avatar } from "./_components/ui/avatar"
 
 export default function Home() {
 	return (
@@ -28,6 +35,21 @@ export default function Home() {
 						src={Banner01} fill className="object-cover rounded-xl"
 					/>
 				</div>
+
+				<Card className="mt-6">
+					<CardContent className="flex">
+						{/* ESQUERDA */}
+						<div className="flex flex-col gap-2 py-5">
+							<Badge>Confirmado</Badge>
+							<h3>Corte de Cabelo</h3>
+
+							<div className="flex items-center gap-2">
+								<Avatar src={AvatarImg}></Avatar>
+								<h4>Renildo P.</h4>
+							</div>
+						</div>
+					</CardContent>
+				</Card>
 			</div>
 		</>
 	)
