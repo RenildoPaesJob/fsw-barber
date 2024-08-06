@@ -1,18 +1,14 @@
 import Image from "next/image"
 
-import { SearchIcon } from "lucide-react"
-
-import { Button } from "./_components/ui/button"
-import { Input } from "./_components/ui/input"
-import { Card, CardContent } from "./_components/ui/card"
-import { Badge } from "./_components/ui/badge"
-
 import Banner01 from "../../public/assets/img/Banner01.svg"
 
 import Header from "./_components/Header"
-import { Avatar, AvatarImage } from "./_components/ui/avatar"
 import { db } from "./_lib/prisma"
-import BarberShopItem from "./_components/BarberShopItem"
+import Filters from "./_components/Filters"
+import Booking from "./_components/Bookings"
+import Recommended from "./_components/Recommended"
+import Search from "./_components/Search"
+import Footer from "./_components/Footer"
 
 export default async function Home() {
 
@@ -28,18 +24,18 @@ export default async function Home() {
 			{/* Header */}
 			<Header />
 
-			{/* Boa vindas e busca */}
 			<div className="p-5">
+				{/* Boa vindas e busca */}
 				<div className="text-xl font-bold">Olá, Renildo!</div>
 				<p>Segunda-feira, 05 de agosto.</p>
 
-				<div className="flex items-center gap-2 mt-6">
-					<Input placeholder="Faça sua busca..." />
-					<Button>
-						<SearchIcon />
-					</Button>
-				</div>
+				{/* PESQUISA */}
+				<Search />
 
+				{/* FILTROS */}
+				<Filters />
+
+				{/* BANNER 01 */}
 				<div className="relative w-full h-[150px] mt-6">
 					<Image
 						alt="Banner Agende nos melhores com FWS Barber"
@@ -47,62 +43,17 @@ export default async function Home() {
 					/>
 				</div>
 
-				<div className="flex flex-col gap-3 mt-6">
-					<h2 className="text-xs font-bold uppercase text-gray-400">
-						Agendamentos
-					</h2>
-					<Card>
-						<CardContent className="flex justify-between px-5 py-0">
-							{/* ESQUERDA */}
-							<div className="flex flex-col gap-2 py-5">
-								<Badge className="flex justify-center text-center w-fit">Confirmado</Badge>
-								<h3 className="font-bold">Corte de Cabelo</h3>
+				{/* AGENDAMENTOS */}
+				<Booking />
 
-								<div className="flex items-center gap-2">
-									<Avatar>
-										<AvatarImage src="https://utfs.io/f/07842cfb-7b30-4fdc-accc-719618dfa1f2-17s.png" alt="@shadcn" className="object-cover" />
-									</Avatar>
-									<h4>Renildo P.</h4>
-								</div>
-							</div>
+				{/* RECOMENDADOS */}
+				<Recommended barbershops={barbershops} title="Recomendados" />
 
-							<div className="flex flex-col items-center justify-center border-l-2 border-solid pl-5">
-								<p className="text-sm">Agosto</p>
-								<p className="text-2xl">06</p>
-								<p className="text-sm">15:00</p>
-							</div>
-						</CardContent>
-					</Card>
-				</div>
-
-				<div className="flex flex-col gap-3 mt-6">
-					<h2 className="text-xs font-bold uppercase text-gray-400">
-						Recomendados
-					</h2>
-
-					<div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-						{
-							barbershops.map(barbershop =>
-								<BarberShopItem key={barbershop.id} barbershop={barbershop} />
-							)
-						}
-					</div>
-				</div>
-
-				<div className="flex flex-col gap-3 mt-6">
-					<h2 className="text-xs font-bold uppercase text-gray-400">
-						Populares
-					</h2>
-
-					<div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-						{
-							popularBarbershops.map(popularShop =>
-								<BarberShopItem key={popularShop.id} barbershop={popularShop} />
-							)
-						}
-					</div>
-				</div>
+				{/* POPULARES */}
+				<Recommended barbershops={popularBarbershops} title="Populares" />
 			</div>
+
+			<Footer />
 		</>
 	)
 }

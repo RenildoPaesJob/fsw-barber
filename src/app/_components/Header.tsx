@@ -1,11 +1,12 @@
 import Image from "next/image"
+
 import { Card, CardContent } from "./ui/card"
+import { Button } from "./ui/button"
+import { MenuIcon } from "lucide-react"
 
 import Logo from "../../../public/assets/img/Logo.png"
-import { MenuIcon } from "lucide-react"
-import { Button } from "./ui/button"
 
-const Header = () => {
+export default function Header() {
 	return (
 		<Card>
 			<CardContent className="flex flex-row items-center p-5 justify-between align-middle">
@@ -17,5 +18,3 @@ const Header = () => {
 		</Card>
 	)
 }
-
-export default Header
