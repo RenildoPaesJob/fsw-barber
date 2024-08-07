@@ -2,6 +2,7 @@ import { Avatar, AvatarImage } from "./ui/avatar"
 import { Badge } from "./ui/badge"
 import { Card, CardContent } from "./ui/card"
 
+// TODO: receber agendamento como props
 export default function Booking() {
 	return (
 		<div className="flex flex-col gap-3 mt-6">
