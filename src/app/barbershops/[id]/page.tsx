@@ -1,3 +1,4 @@
+import PhoneItem from "@/app/_components/PhoneItem"
 import ServicesItem from "@/app/_components/ServicesItem"
 import { Button } from "@/app/_components/ui/button"
 import { db } from "@/app/_lib/prisma"
@@ -27,7 +28,7 @@ export default async function BarbershopPage({ params }: BarbershopPageProps) {
 
 	return (
 		<>
-			{/* IMAGEM BARBEARIA */}
+			{/* HEADER IMAGEM BARBEARIA */}
 			<div className="relative w-full h-[250px]">
 				<Image
 					alt={barbershop?.name ?? ""}
@@ -84,7 +85,7 @@ export default async function BarbershopPage({ params }: BarbershopPageProps) {
 			</div>
 
 			{/* SERVIÇOS */}
-			<div className="p-5">
+			<div className="border-b-2 border-solid p-5">
 				<h2 className="text-xs font-bold uppercase mb-4">
 					SERVIÇOS
 				</h2>
@@ -96,6 +97,15 @@ export default async function BarbershopPage({ params }: BarbershopPageProps) {
 					}
 				</div>
 			</div >
+
+			{/* CONTATOS */}
+			<div className="p-5 space-y-3">
+				{
+					barbershop.phones.map(phone => (
+						<PhoneItem phone={phone} key={phone} />
+					))
+				}
+			</div>
 		</>
 	)
 }
