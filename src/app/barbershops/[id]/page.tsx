@@ -85,15 +85,17 @@ export default async function BarbershopPage({ params }: BarbershopPageProps) {
 
 			{/* SERVIÇOS */}
 			<div className="p-5">
-				<h2 className="text-xs font-bold uppercase">
+				<h2 className="text-xs font-bold uppercase mb-4">
 					SERVIÇOS
 				</h2>
-				{
-					barbershop.services.map((service) => (
-						<ServicesItem key={service.id} service={service} />
-					))
-				}
-			</div>
+				<div className="flex flex-col gap-6">
+					{
+						barbershop.services.map((service) => (
+							<ServicesItem key={service.id} service={service} />
+						))
+					}
+				</div>
+			</div >
 		</>
 	)
 }

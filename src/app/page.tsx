@@ -8,7 +8,6 @@ import Filters from "./_components/Filters"
 import Booking from "./_components/Bookings"
 import Recommended from "./_components/Recommended"
 import Search from "./_components/Search"
-import Footer from "./_components/Footer"
 
 export default async function Home() {
 
@@ -52,8 +51,6 @@ export default async function Home() {
 				{/* POPULARES */}
 				<Recommended barbershops={popularBarbershops} title="Populares" />
 			</div>
-
-			<Footer />
 		</>
 	)
 }
