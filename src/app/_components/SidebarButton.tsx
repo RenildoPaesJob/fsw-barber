@@ -5,11 +5,13 @@ import {
 	SheetClose,
 	SheetContent,
 	SheetHeader,
-	SheetTitle} from "./ui/sheet"
+	SheetTitle
+} from "./ui/sheet"
 import { Button } from "./ui/button"
 import { Avatar, AvatarImage } from "./ui/avatar"
-import { CalendarIcon, HomeIcon, LogOutIcon } from "lucide-react"
+import { CalendarIcon, HomeIcon, LogIn, LogInIcon, LogOutIcon } from "lucide-react"
 import { quickSearchOption } from "../_types/quickSearchOptions"
+import { Dialog, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 
 export default function SidebarButton() {
 	return (
@@ -19,8 +21,23 @@ export default function SidebarButton() {
 			</SheetHeader>
 
 			{/* AVATAR */}
-			<div className="py-5 border-b border-solid flex items-center gap-2">
-				<div className="w-10 h-10">
+			<div className="py-5 border-b border-solid flex justify-between items-center gap-2">
+				<h2 className="font-bold text-lg">Olá faça seu login!</h2>
+				<Dialog>
+					<DialogTrigger>
+						<Button className="icon w-fit">
+							<LogInIcon />
+						</Button>
+					</DialogTrigger>
+
+					<DialogHeader>
+						<DialogTitle>Faça seu login!</DialogTitle>
+						<DialogDescription>
+							Make changes to your profile here. Click save when you're done.
+						</DialogDescription>
+					</DialogHeader>
+				</Dialog>
+				{/* <div className="w-10 h-10">
 					<Avatar>
 						<AvatarImage
 							alt="@shadcn"
@@ -33,7 +50,7 @@ export default function SidebarButton() {
 				<div className="flex flex-col p-0">
 					<p className="text-xs">Renildo P.</p>
 					<p className="text-xs text-gray-400">renildop@gmail.com</p>
-				</div>
+				</div> */}
 			</div>
 
 			<div className="flex flex-col gap-2 py-5 border-b-2">
