@@ -1,5 +1,8 @@
+import PhoneItem from "@/app/_components/PhoneItem"
 import ServicesItem from "@/app/_components/ServicesItem"
+import SidebarButton from "@/app/_components/SidebarButton"
 import { Button } from "@/app/_components/ui/button"
+import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet"
 import { db } from "@/app/_lib/prisma"
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react"
 import Image from "next/image"
@@ -27,7 +30,7 @@ export default async function BarbershopPage({ params }: BarbershopPageProps) {
 
 	return (
 		<>
-			{/* IMAGEM BARBEARIA */}
+			{/* HEADER IMAGEM BARBEARIA */}
 			<div className="relative w-full h-[250px]">
 				<Image
 					alt={barbershop?.name ?? ""}
@@ -47,13 +50,15 @@ export default async function BarbershopPage({ params }: BarbershopPageProps) {
 					</Link>
 				</Button>
 
-				<Button
-					className="absolute right-4 top-4"
-					size="icon"
-					variant="secondary"
-				>
-					<MenuIcon />
-				</Button>
+				{/* SIDEBAR */}
+				<Sheet>
+					<SheetTrigger asChild>
+						<Button size="icon" variant="outline" className="absolute top-4 right-4">
+							<MenuIcon />
+						</Button>
+					</SheetTrigger>
+					<SidebarButton />
+				</Sheet>
 			</div>
 
 			{/* INFORMAÇÕES BARBEARIA */}
@@ -84,13 +89,24 @@ export default async function BarbershopPage({ params }: BarbershopPageProps) {
 			</div>
 
 			{/* SERVIÇOS */}
-			<div className="p-5">
-				<h2 className="text-xs font-bold uppercase">
+			<div className="border-b-2 border-solid p-5">
+				<h2 className="text-xs font-bold uppercase mb-4">
 					SERVIÇOS
 				</h2>
+				<div className="flex flex-col gap-6">
+					{
+						barbershop.services.map((service) => (
+							<ServicesItem key={service.id} service={service} />
+						))
+					}
+				</div>
+			</div >
+
+			{/* CONTATOS */}
+			<div className="p-5 space-y-3">
 				{
-					barbershop.services.map((service) => (
-						<ServicesItem key={service.id} service={service} />
+					barbershop.phones.map(phone => (
+						<PhoneItem phone={phone} key={phone} />
 					))
 				}
 			</div>
