@@ -31,14 +31,14 @@ export default function SidebarButton() {
 			</SheetHeader>
 
 			{/* AVATAR */}
-			<div className="py-5 border-b border-solid flex items-center">
+			<div className="py-5 border-b border-solid flex justify-between items-center">
 				{
 					data?.user ? (
 						<div className="flex gap-4">
 							<div className="w-10 h-10">
 								<Avatar>
 									<AvatarImage
-										alt="@shadcn"
+										alt={data?.user?.name ?? ""}
 										src={data?.user?.image ?? ""}
 										className="object-cover rounded-full"
 									/>
@@ -51,7 +51,7 @@ export default function SidebarButton() {
 							</div>
 						</div>
 					) : (
-						<div className="flex gap-2 items-center">
+						<>
 							<h2 className="font-bold text-lg">Olá faça seu login!</h2>
 							<Dialog>
 								<DialogTrigger asChild>
@@ -78,7 +78,7 @@ export default function SidebarButton() {
 									</Button>
 								</DialogContent>
 							</Dialog>
-						</div>
+						</>
 					)
 				}
 
