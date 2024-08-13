@@ -29,7 +29,9 @@ export default async function Home() {
 				<p>Segunda-feira, 05 de agosto.</p>
 
 				{/* PESQUISA */}
-				<Search />
+				<div className="mt-6">
+					<Search />
+				</div>
 
 				{/* FILTROS */}
 				<Filters />
