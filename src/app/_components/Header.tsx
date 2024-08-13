@@ -11,12 +11,15 @@ import {
 	SheetTrigger
 } from "./ui/sheet"
 import SidebarButton from "./SidebarButton"
+import Link from "next/link"
 
 export default function Header() {
 	return (
 		<Card>
 			<CardContent className="flex flex-row items-center p-5 justify-between align-middle">
-				<Image alt="logo FSW Barber" width={130} height={22} src={Logo} />
+				<Link href="/">
+					<Image alt="logo FSW Barber" width={130} height={22} src={Logo} />
+				</Link>
 
 				{/* SIDEBAR */}
 				<Sheet>

@@ -16,7 +16,7 @@ import {
 } from "./ui/form"
 
 const searchFormSchema = z.object({
-	search: z.string().trim().min(1, {
+	title: z.string().trim().min(1, {
 		message: "Digite algo para buscar!"
 	})
 })
@@ -26,14 +26,14 @@ export default function Search() {
 	const iSearchFormShema = useForm<z.infer<typeof searchFormSchema>>({
 		resolver: zodResolver(searchFormSchema),
 		defaultValues: {
-			search: ""
+			title: ""
 		}
 	})
 
 	const router = useRouter()
 
 	const handleSubmit = (data: z.infer<typeof searchFormSchema>) => {
-		router.push(`/barbershops?search=${data.search}`)
+		router.push(`/barbershops?title=${data.title}`)
 	}
 
 	return (
@@ -44,7 +44,7 @@ export default function Search() {
 			>
 				<FormField
 					control={iSearchFormShema.control}
-					name="search"
+					name="title"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormControl>
