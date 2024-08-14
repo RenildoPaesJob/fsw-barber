@@ -94,7 +94,6 @@ export default function ServicesItem({ service, barbershop }: ServicesItemProps)
 
 			createBooking({
 				serviceId: service.id,
-				userId: (data?.user as any).id,
 				date: newDate
 			})
 
