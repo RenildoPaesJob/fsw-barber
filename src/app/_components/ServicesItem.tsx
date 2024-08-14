@@ -1,5 +1,7 @@
 "use client"
 
+import { useSession } from "next-auth/react"
+
 import type { Barbershop, BarbershopService } from "@prisma/client"
 import Image from "next/image"
 import { Button } from "./ui/button"
@@ -10,7 +12,9 @@ import { SheetTrigger } from "@/app/_components/ui/sheet"
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { useState } from "react"
-import { format } from "date-fns"
+import { format, set } from "date-fns"
+import { toast } from "sonner"
+import { createBooking } from "../_actions/create-booking"
 
 interface ServicesItemProps {
 	service: BarbershopService
@@ -34,6 +38,8 @@ const TIME_LIST: string[] = [
 
 export default function ServicesItem({ service, barbershop }: ServicesItemProps) {
 
+	const { data } = useSession()
+
 	const [selectedDay, setSelectedDay] = useState<Date | undefined>(new Date())
 	const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined)
 
@@ -43,6 +49,34 @@ export default function ServicesItem({ service, barbershop }: ServicesItemProps)
 
 	const handleTimeSelect = (time: string) => {
 		setSelectedTime(time)
+	}
+
+	const handleCreateBooking = () => {
+		// 1. Não exibir horários que já foram marcados
+		// 2. Salvar o agendamento para o usuário logado
+		// 3. Não deixar o usuário reservar se não estiver logado
+		try {
+			if (!selectedDay || !selectedTime) return
+
+			const hour = Number(selectedTime.split(":")[0])
+			const minute = Number(selectedTime.split(":")[1])
+
+			const newDate = set(selectedDay, {
+				minutes: minute,
+				hours: hour
+			})
+
+			createBooking({
+				serviceId: service.id,
+				userId   : (data?.user as any).id,
+				date     : newDate
+			})
+
+			toast.success("Reserva criada com sucesso!")
+		} catch (err) {
+			console.log(err)
+			toast.error("Erro ao criar reserva!")
+		}
 	}
 
 	return (
@@ -117,7 +151,7 @@ export default function ServicesItem({ service, barbershop }: ServicesItemProps)
 												<h2 className="text-xs font-bold uppercase mt-5 px-3">
 													Horários Disponíveis
 												</h2>
-												<div className="flex p-5 overflow-auto gap-3 [&::-webkit-scrollbar]:hidden">
+												<div className="flex p-5 overflow-x-auto gap-3 [&::-webkit-scrollbar]:hidden">
 													{
 														TIME_LIST.map(time => (
 															<Button
@@ -137,7 +171,7 @@ export default function ServicesItem({ service, barbershop }: ServicesItemProps)
 
 									{
 										selectedTime && selectedDay && (
-											<div className="p-5">
+											<div className="p-5 border-b-2 border-solid">
 												<Card>
 													<CardContent className="p-3 space-y-3">
 														<div className="flex items-center justify-between">
@@ -177,19 +211,16 @@ export default function ServicesItem({ service, barbershop }: ServicesItemProps)
 										)
 									}
 
-									{
-										selectedTime && selectedDay && (
-											<>
-												<SheetFooter className="px-5">
-													<SheetClose asChild>
-														<Button type="submit">
-															Confirmar
-														</Button>
-													</SheetClose>
-												</SheetFooter>
-											</>
-										)
-									}
+									<SheetFooter className="px-5 mt-4">
+										<SheetClose asChild>
+											<Button
+												onClick={handleCreateBooking}
+												disabled={!selectedTime || !selectedDay}
+											>
+												Confirmar
+											</Button>
+										</SheetClose>
+									</SheetFooter>
 								</SheetContent>
 							</Sheet>
 

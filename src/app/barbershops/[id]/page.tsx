@@ -105,8 +105,8 @@ export default async function BarbershopPage({ params }: BarbershopPageProps) {
 			{/* CONTATOS */}
 			<div className="p-5 space-y-3">
 				{
-					barbershop.phones.map(phone => (
-						<PhoneItem phone={phone} key={phone} />
+					barbershop.phones.map((phone, index) => (
+						<PhoneItem phone={phone} key={index} />
 					))
 				}
 			</div>

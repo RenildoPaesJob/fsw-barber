@@ -10,6 +10,6 @@ interface CreateBookingParams {
 
 export const createBooking = async (params: CreateBookingParams) => {
 	await db.booking.create({
-		data: params
+		data: params,
 	})
 }
