@@ -96,7 +96,7 @@ export default async function BarbershopPage({ params }: BarbershopPageProps) {
 				<div className="flex flex-col gap-6">
 					{
 						barbershop.services.map((service) => (
-							<ServicesItem key={service.id} service={service} />
+							<ServicesItem key={service.id} barbershop={barbershop} service={service} />
 						))
 					}
 				</div>

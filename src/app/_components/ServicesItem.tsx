@@ -1,26 +1,48 @@
 "use client"
 
-import type { BarbershopService } from "@prisma/client"
+import type { Barbershop, BarbershopService } from "@prisma/client"
 import Image from "next/image"
 import { Button } from "./ui/button"
 import { formartCurrencyBR } from "../_lib/utils"
 import { Card, CardContent } from "./ui/card"
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/app/_components/ui/sheet"
+import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle } from "@/app/_components/ui/sheet"
 import { SheetTrigger } from "@/app/_components/ui/sheet"
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { useState } from "react"
+import { format } from "date-fns"
 
 interface ServicesItemProps {
 	service: BarbershopService
+	barbershop: Pick<Barbershop, "name">
 }
 
-export default function ServicesItem({ service }: ServicesItemProps) {
+const TIME_LIST: string[] = [
+	"08:00", "08:30",
+	"09:00", "09:30",
+	"10:00", "10:30",
+	"11:00", "11:30",
+	"12:00", "12:30",
+	"13:00", "13:30",
+	"14:00", "14:30",
+	"15:00", "15:30",
+	"16:00", "16:30",
+	"17:00", "17:30",
+	"18:00", "18:30",
+	"19:00", "19:30",
+]
+
+export default function ServicesItem({ service, barbershop }: ServicesItemProps) {
 
 	const [selectedDay, setSelectedDay] = useState<Date | undefined>(new Date())
+	const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined)
 
 	const handleDateSelect = (date: Date | undefined) => {
 		setSelectedDay(date)
+	}
+
+	const handleTimeSelect = (time: string) => {
+		setSelectedTime(time)
 	}
 
 	return (
@@ -52,12 +74,12 @@ export default function ServicesItem({ service }: ServicesItemProps) {
 									<Button size="sm">Reservar</Button>
 								</SheetTrigger>
 
-								<SheetContent>
+								<SheetContent className="px-0">
 									<SheetHeader>
 										<SheetTitle>Fazer Reserva</SheetTitle>
 									</SheetHeader>
 
-									<div className="py-5">
+									<div className="py-5 border-b-2 border-solid">
 										<Calendar
 											mode="single"
 											locale={ptBR}
@@ -88,6 +110,86 @@ export default function ServicesItem({ service }: ServicesItemProps) {
 											}}
 										/>
 									</div>
+
+									{
+										selectedDay && (
+											<div className=" border-b-2 border-solid">
+												<h2 className="text-xs font-bold uppercase mt-5 px-3">
+													Horários Disponíveis
+												</h2>
+												<div className="flex p-5 overflow-auto gap-3 [&::-webkit-scrollbar]:hidden">
+													{
+														TIME_LIST.map(time => (
+															<Button
+																key={time}
+																variant={selectedTime === time ? "default" : "outline"}
+																className="rounded-full"
+																onClick={() => handleTimeSelect(time)}
+															>
+																{time}
+															</Button>
+														))
+													}
+												</div>
+											</div>
+										)
+									}
+
+									{
+										selectedTime && selectedDay && (
+											<div className="p-5">
+												<Card>
+													<CardContent className="p-3 space-y-3">
+														<div className="flex items-center justify-between">
+															<h2 className="font-bold">{service.name}</h2>
+															<p className="text-sm font-bold">
+																{Intl.NumberFormat("pt-BR", {
+																	style: "currency", currency: "BRL"
+																}).format(Number(service.price))}
+															</p>
+														</div>
+
+														<div className="flex items-center justify-between">
+															<h2 className="font-bold">Data</h2>
+															<p className="text-sm font-bold text-gray-400">
+																{format(selectedDay, "d 'de' MMMM", {
+																	locale: ptBR,
+																})}
+															</p>
+														</div>
+
+														<div className="flex items-center justify-between">
+															<h2 className="font-bold">Horário</h2>
+															<p className="text-sm font-bold text-gray-400">
+																{selectedTime}
+															</p>
+														</div>
+
+														<div className="flex items-center justify-between">
+															<h2 className="font-bold">Barbearia</h2>
+															<p className="text-sm font-bold text-gray-400 truncate">
+																{barbershop.name}
+															</p>
+														</div>
+													</CardContent>
+												</Card>
+											</div>
+										)
+									}
+
+									{
+										selectedTime && selectedDay && (
+											<>
+												<SheetFooter className="px-5">
+													<SheetClose asChild>
+														<Button type="submit">
+															Confirmar
+														</Button>
+													</SheetClose>
+												</SheetFooter>
+											</>
+										)
+									}
 								</SheetContent>
 							</Sheet>
 
@@ -95,6 +197,6 @@ export default function ServicesItem({ service }: ServicesItemProps) {
 					</div>
 				</div>
 			</CardContent>
-		</Card>
+		</Card >
 	)
 }
