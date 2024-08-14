@@ -12,17 +12,15 @@ import {
 import { Button } from "./ui/button"
 import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react"
 import { quickSearchOption } from "../_types/quickSearchOptions"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
 
-import GoogleIcon from "../../../public/assets/img/google_icon_solid.svg"
-import { signIn, signOut, useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import { Avatar, AvatarImage } from "./ui/avatar"
+import SingInDialog from "./SignInDialog"
 
 export default function SidebarButton() {
 
 	const { data } = useSession()
-
-	const handleLoginWithGoogleClick = () => signIn("google")
 
 	return (
 		<SheetContent className="overflow-y-auto [&::-webkit-scrollbar]:hidden">
@@ -60,28 +58,13 @@ export default function SidebarButton() {
 									</Button>
 								</DialogTrigger>
 
-								<DialogContent className="flex flex-col w-[90%]">
-									<DialogHeader>
-										<DialogTitle>Faça login na plataforma!</DialogTitle>
-										<DialogDescription>
-											Conecte-se usando sua conta do Google.
-										</DialogDescription>
-									</DialogHeader>
-
-									<Button
-										variant="outline"
-										className="flex gap-2 font-bold"
-										onClick={handleLoginWithGoogleClick}
-									>
-										<Image src={GoogleIcon} alt="Fazer login com o google" />
-										Google
-									</Button>
+								<DialogContent className="w-[90%]">
+									<SingInDialog />
 								</DialogContent>
 							</Dialog>
 						</>
 					)
 				}
-
 			</div>
 
 			<div className="flex flex-col gap-2 py-5 border-b-2">
