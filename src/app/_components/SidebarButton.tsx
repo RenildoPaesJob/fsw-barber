@@ -11,7 +11,7 @@ import {
 } from "./ui/sheet"
 import { Button } from "./ui/button"
 import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react"
-import { quickSearchOption } from "../_types/quickSearchOptions"
+import { quickSearchOption } from "@/_types/quickSearchOptions"
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
 
 import { signOut, useSession } from "next-auth/react"

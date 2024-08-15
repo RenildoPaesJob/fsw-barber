@@ -1,7 +1,7 @@
 import Image from "next/image"
 
 import { Button } from "./ui/button"
-import { quickSearchOption } from "../_types/quickSearchOptions"
+import { quickSearchOption } from "@/_types/quickSearchOptions"
 import Link from "next/link"
 
 export default function Filters() {
