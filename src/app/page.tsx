@@ -5,7 +5,7 @@ import Banner01 from "../../public/assets/img/Banner01.svg"
 import Header from "./_components/Header"
 import { db } from "./_lib/prisma"
 import Filters from "./_components/Filters"
-import Booking from "./_components/Bookings"
+import BookingItem from "./_components/BookingItem"
 import Recommended from "./_components/Recommended"
 import Search from "./_components/Search"
 
@@ -45,7 +45,12 @@ export default async function Home() {
 				</div>
 
 				{/* AGENDAMENTOS */}
-				<Booking />
+				<div className="p-5">
+					<h2 className="text-xs font-bold uppercase text-gray-400">
+						Agendamentos
+					</h2>
+					<BookingItem />
+				</div>
 
 				{/* RECOMENDADOS */}
 				<Recommended barbershops={barbershops} title="Recomendados" />

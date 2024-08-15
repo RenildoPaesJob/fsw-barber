@@ -1,20 +1,26 @@
+import type { Prisma } from "@prisma/client"
 import { Avatar, AvatarImage } from "./ui/avatar"
 import { Badge } from "./ui/badge"
 import { Card, CardContent } from "./ui/card"
 
+interface BookingItemProps {
+	booking: Prisma.BookingGetPayload<{
+		include: {
+			service: true
+		}
+	}>
+}
+
 // TODO: receber agendamento como props
-export default function Booking() {
+export default function BookingItem({ booking }: BookingItemProps) {
 	return (
 		<div className="flex flex-col gap-3 mt-6">
-			<h2 className="text-xs font-bold uppercase text-gray-400">
-				Agendamentos
-			</h2>
 			<Card>
 				<CardContent className="flex justify-between px-5 py-0">
 					{/* ESQUERDA */}
 					<div className="flex flex-col gap-2 py-5">
 						<Badge className="flex justify-center text-center w-fit">Confirmado</Badge>
-						<h3 className="font-bold">Corte de Cabelo</h3>
+						<h3 className="font-bold">{booking.service.name}</h3>
 
 						<div className="flex items-center gap-2">
 							<Avatar>

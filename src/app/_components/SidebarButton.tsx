@@ -79,9 +79,12 @@ export default function SidebarButton() {
 				<Button
 					variant="ghost"
 					className="justify-start gap-2"
+					asChild
 				>
-					<CalendarIcon size={18} />
-					Agendamentos
+					<Link href="/bookings">
+						<CalendarIcon size={18} />
+						Agendamentos
+					</Link>
 				</Button>
 			</div>
 
