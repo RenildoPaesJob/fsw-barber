@@ -18,7 +18,7 @@ export const createBooking = async (params: CreateBookingParams) => {
 	}
 
 	await db.booking.create({
-		data: { ...params, userId: (user.user as any).id },
+		data: { ...params, userId: (user.user as any).id, createdAt: new Date()},
 	})
 	revalidatePath("/barbershops/[id]")
 }

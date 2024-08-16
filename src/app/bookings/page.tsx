@@ -6,11 +6,11 @@ import { db } from "@/_lib/prisma"
 import { getServerSession } from "next-auth"
 import { notFound } from "next/navigation"
 
-export default async function Bookings(){
+export default async function Bookings() {
 
 	const session = await getServerSession(authOptions)
 
-	if(!session?.user){
+	if (!session?.user) {
 		// TODO: mostrar pop-up de login
 		return notFound()
 	}
@@ -20,7 +20,11 @@ export default async function Bookings(){
 			userId: (session.user as any).id
 		},
 		include: {
-			service: true
+			service: {
+				include: {
+					barbershop: true
+				}
+			}
 		}
 	})
 
@@ -29,13 +33,15 @@ export default async function Bookings(){
 			<Header />
 
 			<div className="p-5">
-				<h2 className="text-xs font-bold uppercase text-gray-400">
+				<h2 className="text-xs font-bold uppercase text-gray-400 mb-3">
 					Agendamentos
 				</h2>
 
-				{
-					bookings.map(booking => <BookingItem key={booking.id} booking={booking} />)
-				}
+				<div className="space-y-3">
+					{
+						bookings.map(booking => <BookingItem key={booking.id} booking={booking} />)
+					}
+				</div>
 			</div>
 		</>
 	)

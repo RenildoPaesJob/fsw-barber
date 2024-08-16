@@ -8,8 +8,12 @@ import Filters from "./_components/Filters"
 import BookingItem from "./_components/BookingItem"
 import Recommended from "./_components/Recommended"
 import Search from "./_components/Search"
+import { authOptions } from "./_lib/auth"
+import { getServerSession } from "next-auth"
 
 export default async function Home() {
+
+	const session = await getServerSession(authOptions)
 
 	const barbershops = await db.barbershop.findMany({})
 	const popularBarbershops = await db.barbershop.findMany({
@@ -17,6 +21,19 @@ export default async function Home() {
 			name: "desc"
 		}
 	})
+
+	const bookings = session?.user ? await db.booking.findMany({
+		where: {
+			userId: (session?.user as any).id
+		},
+		include: {
+			service: {
+				include: {
+					barbershop: true
+				}
+			}
+		}
+	}) : []
 
 	return (
 		<>
@@ -45,11 +62,20 @@ export default async function Home() {
 				</div>
 
 				{/* AGENDAMENTOS */}
-				<div className="p-5">
-					<h2 className="text-xs font-bold uppercase text-gray-400">
+				<div className="mt-5">
+					<h2 className="text-xs font-bold uppercase text-gray-400 mb-3">
 						Agendamentos
 					</h2>
-					<BookingItem />
+					<div className="flex overflow-x-auto w-full gap-3 [&::-webkit-scrollbar]:hidden">
+						{
+							bookings.map(booking => (
+								<BookingItem
+									key={booking.id}
+									booking={booking}
+								/>
+							))
+						}
+					</div>
 				</div>
 
 				{/* RECOMENDADOS */}

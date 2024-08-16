@@ -9,7 +9,7 @@ interface RecommendedProps {
 
 export default function Recommended({ barbershops, title }: RecommendedProps) {
 	return (
-		<div className="flex flex-col gap-3 mt-6">
+		<div className="flex flex-col gap-3 mt-4">
 			<h2 className="text-xs font-bold uppercase text-gray-400">
 				{title}
 			</h2>
