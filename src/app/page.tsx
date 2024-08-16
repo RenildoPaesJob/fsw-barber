@@ -22,9 +22,12 @@ export default async function Home() {
 		}
 	})
 
-	const bookings = session?.user ? await db.booking.findMany({
+	const concludedBookings = session?.user ? await db.booking.findMany({
 		where: {
-			userId: (session?.user as any).id
+			userId: (session?.user as any).id,
+			date: {
+				gte: new Date()
+			}
 		},
 		include: {
 			service: {
@@ -32,6 +35,9 @@ export default async function Home() {
 					barbershop: true
 				}
 			}
+		},
+		orderBy: {
+			date: "asc"
 		}
 	}) : []
 
@@ -42,7 +48,7 @@ export default async function Home() {
 
 			<div className="p-5">
 				{/* Boa vindas e busca */}
-				<div className="text-xl font-bold">Olá, Renildo!</div>
+				<div className="text-xl font-bold">Olá, { session?.user?.name }!</div>
 				<p>Segunda-feira, 05 de agosto.</p>
 
 				{/* PESQUISA */}
@@ -68,7 +74,7 @@ export default async function Home() {
 					</h2>
 					<div className="flex overflow-x-auto w-full gap-3 [&::-webkit-scrollbar]:hidden">
 						{
-							bookings.map(booking => (
+							concludedBookings.map(booking => (
 								<BookingItem
 									key={booking.id}
 									booking={booking}

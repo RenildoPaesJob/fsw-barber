@@ -15,7 +15,7 @@ interface BarberShopItemProps {
 
 export default function BarberShopItem({ barbershop }: BarberShopItemProps) {
 	return <>
-		<Card className="min-w-[200px] rounded-xl">
+		<Card className="min-w-[160px] rounded-xl">
 			<CardContent className="p-2">
 				{/* IMAGEM */}
 				<div className="relative h-[159px] w-full">

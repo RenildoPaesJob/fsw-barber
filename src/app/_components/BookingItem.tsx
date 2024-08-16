@@ -42,7 +42,7 @@ export default function BookingItem({ booking }: BookingItemProps) {
 								className="object-cover"
 							/>
 						</Avatar>
-						<h4>{booking.service.barbershop.name}</h4>
+						<h4>{booking?.service?.barbershop?.name}</h4>
 					</div>
 				</div>
 
